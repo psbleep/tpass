@@ -1,0 +1,11 @@
+{
+    "shortcuts": {
+        "ctrl a": "greeting/hello",
+        "ctrl b": "greeting/world"
+    },
+    "commands": {
+        "ctrl y": ["go", "GO_COMMAND"],
+        "ctrl z": ["stop", "STOP_COMMAND"]
+    },
+    "foo": "bar"
+}
