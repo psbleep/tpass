@@ -53,6 +53,8 @@ class StoreListing(UserList):
 
     def _process_step(self, dirpath, _, files):
         rel_dir = os.path.relpath(dirpath, self._password_store_dir).strip("./")
+        if rel_dir.startswith("2fa"):
+            return []
         return [
             os.path.join(rel_dir, os.path.splitext(f)[0])
             for f in files
