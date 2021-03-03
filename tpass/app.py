@@ -235,6 +235,7 @@ class App:
 
     def _open_shortcut_password(self, password_name):
         self._search.edit_text = password_name
+        self._search.edit_pos = len(password_name)
         self._listing.set_search_term(password_name)
         self._listing.selected_password = password_name
         self._refresh_left_column()
