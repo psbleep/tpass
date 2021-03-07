@@ -37,6 +37,20 @@ def test_open_password_copied_to_clipboard_returns_console_output(
     )
 
 
+def test_open_multiline_password_copies_first_line_to_clipboard_displays_rest(
+    mocker, mocked_pyperclip_copy,
+):
+    mocker.patch(
+        "tpass.password_store.subprocess.run",
+        return_value=proc(b"h3ll0 w0rld\nusername: foo\nurl: bar.org"),
+    )
+    assert (
+        password_store.open_password("greeting", copy=True)
+        == "'greeting' copied to clipboard.\n\nusername: foo\nurl: bar.org"
+    )
+    mocked_pyperclip_copy.assert_called()
+
+
 @pytest.fixture
 def mocked_generate_password_subprocess(mocker):
     mocker.patch(

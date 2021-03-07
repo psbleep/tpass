@@ -10,11 +10,9 @@ def open_password(password_name, copy=False):
     )
     output = proc.stdout.decode()
     if copy:
-        output = output.splitlines()[0]
-        pyperclip.copy(output)
-        return "{password_name!r} copied to clipboard.".format(
-            password_name=password_name
-        )
+        contents = output.splitlines()
+        pyperclip.copy(contents[0])
+        output = "\n".join([f"{password_name!r} copied to clipboard.\n"] + contents[1:])
     return output.strip("\n")
 
 
