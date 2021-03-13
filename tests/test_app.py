@@ -74,7 +74,6 @@ def test_call_open_password_not_set_to_quit_after_opening(
 ):
     app._call_open_password("hello")
     assert app._console.data == ["31337h4x0r5"]
-    assert app._last_opened == "hello"
 
 
 def test_call_open_password_is_set_to_quit_after_opening(
@@ -99,7 +98,7 @@ def test_get_otp(
     mocked_oathtool_subprocess = mocker.patch(
         "tpass.app.subprocess.run", return_value=proc(b"123456")
     )
-    app._last_opened = "hello"
+    app._search.edit_text = "hello"
     app._get_otp()
     mocked_password_store_open_password.assert_called_with("2fa/hello", copy=False)
     mocked_oathtool_subprocess.assert_called_with(

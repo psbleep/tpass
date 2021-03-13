@@ -33,8 +33,6 @@ class App:
         self._listing = listing
         self._console = console
 
-        self._last_opened = None
-
         self._left_column = urwid.ListBox(
             urwid.SimpleListWalker(
                 [search, urwid.Text(""), *present_store_listing(self._listing)]
@@ -153,7 +151,6 @@ class App:
             self._search.edit_pos = len(password_name)
             self._console.set_output(console_output)
             self._refresh_right_column()
-            self._last_opened = password_name
 
     def _search_term_updated(self, search_term):
         self._listing.set_search_term(search_term)
@@ -211,7 +208,7 @@ class App:
         self._cleanup_console_prompt(console_output)
 
     def _get_otp(self):
-        key_name = "2fa/" + self._last_opened
+        key_name = "2fa/" + self._search.edit_text
         secret = password_store.open_password(key_name, copy=False)
         oathtool_cmd = "oathtool --totp --base32 " + secret
         proc = subprocess.run(
@@ -219,7 +216,7 @@ class App:
         )
         otp = proc.stdout.decode().splitlines()[0]
         pyperclip.copy(otp)
-        self._console.set_output("OTP copied for " + self._last_opened)
+        self._console.set_output("OTP copied for " + self._search.edit_text)
         self._refresh_right_column()
 
     def _move_down(self):
