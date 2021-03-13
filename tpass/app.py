@@ -149,6 +149,8 @@ class App:
         if self._config["settings"]["quit after opening password"]:
             self._quit()
         else:
+            self._search.edit_text = password_name
+            self._search.edit_pos = len(password_name)
             self._console.set_output(console_output)
             self._refresh_right_column()
             self._last_opened = password_name
@@ -234,8 +236,6 @@ class App:
         self._call_open_password(self._listing.selected_password)
 
     def _open_shortcut_password(self, password_name):
-        self._search.edit_text = password_name
-        self._search.edit_pos = len(password_name)
         self._listing.set_search_term(password_name)
         self._listing.selected_password = password_name
         self._refresh_left_column()
